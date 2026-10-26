@@ -1,0 +1,671 @@
+{
+ "name": "poison/model_noise/20/fedavg+none",
+ "config": {
+  "name": "poison/model_noise/20/fedavg+none",
+  "kind": "federated",
+  "model": "ppo",
+  "seed": 42,
+  "data": {
+   "csv_path": "F:\\C File\\Trae\\flow_model\\flow_meter_rl_fl_5\\db_o\\ACI-IoT-2023.csv",
+   "label_col": "Label",
+   "drop_cols": [
+    "Connection Type"
+   ],
+   "task": "binary",
+   "max_rows": 200000,
+   "test_fraction": 0.2,
+   "smote": true,
+   "smote_cap": 5000,
+   "partition": "iid",
+   "dirichlet_alpha": 0.5,
+   "holdout_class": null,
+   "validation_fraction": 0.1,
+   "seed": 42
+  },
+  "agent": {
+   "actions": "binary",
+   "hidden": [
+    256,
+    128,
+    64
+   ],
+   "lr": 0.0003,
+   "gamma": 0.99,
+   "gae_lambda": 0.95,
+   "clip": 0.2,
+   "ent_coef": 0.01,
+   "vf_coef": 0.5,
+   "max_grad_norm": 1.0,
+   "rollout_steps": 2048,
+   "minibatch": 64,
+   "epochs": 10,
+   "episode_len": 256,
+   "alpha": 1.0,
+   "beta": 1.0,
+   "gamma_resp": 0.1,
+   "miss_penalty": 0.0,
+   "action_costs": [
+    0.0,
+    1.0,
+    2.0,
+    1.0,
+    1.0
+   ]
+  },
+  "fed": {
+   "n_clients": 10,
+   "rounds": 5,
+   "local_steps": 8192,
+   "aggregator": "fedavg",
+   "weighting": "none",
+   "gate": "none",
+   "gate_threshold": 0.85,
+   "anomaly_filter": "none",
+   "anomaly_limit": 3.0,
+   "anomaly_fraction": 0.05,
+   "exclusion_patience": 0,
+   "blend_beta": 1.0,
+   "share_critic": false,
+   "krum_f": null,
+   "trim_ratio": 0.1
+  },
+  "attack": {
+   "kind": "model_noise",
+   "n_malicious": 2,
+   "flip_fraction": 0.5,
+   "noise_std": 10.0,
+   "scale_factor": 10.0
+  },
+  "privacy": {
+   "dp": false,
+   "epsilon": 1.0,
+   "delta": 1e-05,
+   "clip_norm": 1.0,
+   "target": "update",
+   "sensitivity": null
+  },
+  "bench": {}
+ },
+ "result": {
+  "history": [
+   {
+    "round": 1,
+    "included": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "gate_rejected": [],
+    "anomaly_flagged": [],
+    "suspended": [],
+    "client_reports": [
+     {
+      "cid": 0,
+      "malicious": false,
+      "accuracy": 0.906875,
+      "f1": 0.9357481673134973
+     },
+     {
+      "cid": 1,
+      "malicious": false,
+      "accuracy": 0.899375,
+      "f1": 0.9289810322011469
+     },
+     {
+      "cid": 2,
+      "malicious": false,
+      "accuracy": 0.903125,
+      "f1": 0.9316879682679595
+     },
+     {
+      "cid": 3,
+      "malicious": true,
+      "accuracy": 0.221875,
+      "f1": 0.19625564880568108
+     },
+     {
+      "cid": 4,
+      "malicious": false,
+      "accuracy": 0.910625,
+      "f1": 0.9370321444297666
+     },
+     {
+      "cid": 5,
+      "malicious": false,
+      "accuracy": 0.90125,
+      "f1": 0.9314830875975716
+     },
+     {
+      "cid": 6,
+      "malicious": true,
+      "accuracy": 0.2975,
+      "f1": 0.2506666666666667
+     },
+     {
+      "cid": 7,
+      "malicious": false,
+      "accuracy": 0.93625,
+      "f1": 0.9565587734241907
+     },
+     {
+      "cid": 8,
+      "malicious": false,
+      "accuracy": 0.934375,
+      "f1": 0.9551856594110115
+     },
+     {
+      "cid": 9,
+      "malicious": false,
+      "accuracy": 0.898125,
+      "f1": 0.9292841648590021
+     }
+    ],
+    "aggregation": {
+     "seconds": 0.0023318000603467226
+    },
+    "test": {
+     "accuracy": 0.338525,
+     "precision": 0.6505080440304827,
+     "recall": 0.20973961710405079,
+     "f1": 0.3172047172976182,
+     "fpr": 0.308684677947088,
+     "fnr": 0.7902603828959492,
+     "tp": 6146,
+     "tn": 7395,
+     "fp": 3302,
+     "fn": 23157,
+     "per_class_detection": {
+      "DNS Flood": 0.01654533421575116,
+      "Dictionary Attack": 0.12254901960784313,
+      "ICMP Flood": 0.8008135593220339,
+      "OS Scan": 0.004266211604095563,
+      "Ping Sweep": 0.0,
+      "Port Scan": 0.0030679124250453213,
+      "SYN Flood": 0.006666666666666667,
+      "Slowloris": 0.17174959871589085,
+      "UDP Flood": 0.76,
+      "Vulnerability Scan": 0.009538950715421303
+     },
+     "mia_auc": 0.4984147500000001
+    },
+    "round_seconds": 320.898833299987
+   },
+   {
+    "round": 2,
+    "included": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "gate_rejected": [],
+    "anomaly_flagged": [],
+    "suspended": [],
+    "client_reports": [
+     {
+      "cid": 0,
+      "malicious": false,
+      "accuracy": 0.37625,
+      "f1": 0.41909196740395815
+     },
+     {
+      "cid": 1,
+      "malicious": false,
+      "accuracy": 0.340625,
+      "f1": 0.32241490044958254
+     },
+     {
+      "cid": 2,
+      "malicious": false,
+      "accuracy": 0.37,
+      "f1": 0.41599073001158754
+     },
+     {
+      "cid": 3,
+      "malicious": true,
+      "accuracy": 0.223125,
+      "f1": 0.035686578743211794
+     },
+     {
+      "cid": 4,
+      "malicious": false,
+      "accuracy": 0.391875,
+      "f1": 0.4365952518818761
+     },
+     {
+      "cid": 5,
+      "malicious": false,
+      "accuracy": 0.31,
+      "f1": 0.2849740932642487
+     },
+     {
+      "cid": 6,
+      "malicious": true,
+      "accuracy": 0.735625,
+      "f1": 0.847237269772481
+     },
+     {
+      "cid": 7,
+      "malicious": false,
+      "accuracy": 0.3775,
+      "f1": 0.420256111757858
+     },
+     {
+      "cid": 8,
+      "malicious": false,
+      "accuracy": 0.356875,
+      "f1": 0.3628482972136223
+     },
+     {
+      "cid": 9,
+      "malicious": false,
+      "accuracy": 0.31875,
+      "f1": 0.29404145077720206
+     }
+    ],
+    "aggregation": {
+     "seconds": 0.00048729998525232077
+    },
+    "test": {
+     "accuracy": 0.709525,
+     "precision": 0.7807875516036837,
+     "recall": 0.8390608470122513,
+     "f1": 0.8088760219104172,
+     "fpr": 0.6453211180704871,
+     "fnr": 0.1609391529877487,
+     "tp": 24587,
+     "tn": 3794,
+     "fp": 6903,
+     "fn": 4716,
+     "per_class_detection": {
+      "DNS Flood": 0.04434149569821311,
+      "Dictionary Attack": 0.7598039215686274,
+      "ICMP Flood": 0.8371525423728814,
+      "OS Scan": 0.9795221843003413,
+      "Ping Sweep": 0.9970123772940674,
+      "Port Scan": 0.9841026356156742,
+      "SYN Flood": 0.006666666666666667,
+      "Slowloris": 0.7784911717495987,
+      "UDP Flood": 0.28,
+      "Vulnerability Scan": 0.07790143084260731
+     },
+     "mia_auc": 0.4925
+    },
+    "round_seconds": 334.52174969995394
+   },
+   {
+    "round": 3,
+    "included": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "gate_rejected": [],
+    "anomaly_flagged": [],
+    "suspended": [],
+    "client_reports": [
+     {
+      "cid": 0,
+      "malicious": false,
+      "accuracy": 0.715,
+      "f1": 0.813877551020408
+     },
+     {
+      "cid": 1,
+      "malicious": false,
+      "accuracy": 0.699375,
+      "f1": 0.8032719836400818
+     },
+     {
+      "cid": 2,
+      "malicious": false,
+      "accuracy": 0.71375,
+      "f1": 0.8091666666666666
+     },
+     {
+      "cid": 3,
+      "malicious": true,
+      "accuracy": 0.818125,
+      "f1": 0.8881199538638984
+     },
+     {
+      "cid": 4,
+      "malicious": false,
+      "accuracy": 0.6875,
+      "f1": 0.7930463576158939
+     },
+     {
+      "cid": 5,
+      "malicious": false,
+      "accuracy": 0.706875,
+      "f1": 0.8095818107998376
+     },
+     {
+      "cid": 6,
+      "malicious": true,
+      "accuracy": 0.744375,
+      "f1": 0.847785634536658
+     },
+     {
+      "cid": 7,
+      "malicious": false,
+      "accuracy": 0.686875,
+      "f1": 0.7925465838509316
+     },
+     {
+      "cid": 8,
+      "malicious": false,
+      "accuracy": 0.65375,
+      "f1": 0.7574430823117337
+     },
+     {
+      "cid": 9,
+      "malicious": false,
+      "accuracy": 0.699375,
+      "f1": 0.8026261797291753
+     }
+    ],
+    "aggregation": {
+     "seconds": 0.0004746000049635768
+    },
+    "test": {
+     "accuracy": 0.738675,
+     "precision": 0.7375252016129032,
+     "recall": 0.9987032044500563,
+     "f1": 0.8484699128770856,
+     "fpr": 0.9736374684490979,
+     "fnr": 0.0012967955499436918,
+     "tp": 29265,
+     "tn": 282,
+     "fp": 10415,
+     "fn": 38,
+     "per_class_detection": {
+      "DNS Flood": 0.99933818663137,
+      "Dictionary Attack": 1.0,
+      "ICMP Flood": 1.0,
+      "OS Scan": 0.9982935153583617,
+      "Ping Sweep": 1.0,
+      "Port Scan": 0.9990238460465765,
+      "SYN Flood": 0.9777777777777777,
+      "Slowloris": 0.9935794542536116,
+      "UDP Flood": 1.0,
+      "Vulnerability Scan": 0.994435612082671
+     },
+     "mia_auc": 0.5025
+    },
+    "round_seconds": 315.847834300017
+   },
+   {
+    "round": 4,
+    "included": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "gate_rejected": [],
+    "anomaly_flagged": [],
+    "suspended": [],
+    "client_reports": [
+     {
+      "cid": 0,
+      "malicious": false,
+      "accuracy": 0.731875,
+      "f1": 0.844169996367599
+     },
+     {
+      "cid": 1,
+      "malicious": false,
+      "accuracy": 0.735,
+      "f1": 0.8461538461538461
+     },
+     {
+      "cid": 2,
+      "malicious": false,
+      "accuracy": 0.73125,
+      "f1": 0.8432944606413995
+     },
+     {
+      "cid": 3,
+      "malicious": true,
+      "accuracy": 0.558125,
+      "f1": 0.6995325116872078
+     },
+     {
+      "cid": 4,
+      "malicious": false,
+      "accuracy": 0.73625,
+      "f1": 0.8473227206946454
+     },
+     {
+      "cid": 5,
+      "malicious": false,
+      "accuracy": 0.746875,
+      "f1": 0.8546824542518837
+     },
+     {
+      "cid": 6,
+      "malicious": true,
+      "accuracy": 0.741875,
+      "f1": 0.8500907441016333
+     },
+     {
+      "cid": 7,
+      "malicious": false,
+      "accuracy": 0.73,
+      "f1": 0.8427947598253275
+     },
+     {
+      "cid": 8,
+      "malicious": false,
+      "accuracy": 0.7325,
+      "f1": 0.8440233236151604
+     },
+     {
+      "cid": 9,
+      "malicious": false,
+      "accuracy": 0.745,
+      "f1": 0.8524945770065075
+     }
+    ],
+    "aggregation": {
+     "seconds": 0.0007329999934881926
+    },
+    "test": {
+     "accuracy": 0.281125,
+     "precision": 0.5200850315203049,
+     "recall": 0.24212537965396033,
+     "f1": 0.33042263360111773,
+     "fpr": 0.612040759091334,
+     "fnr": 0.7578746203460397,
+     "tp": 7095,
+     "tn": 4150,
+     "fp": 6547,
+     "fn": 22208,
+     "per_class_detection": {
+      "DNS Flood": 0.0900066181336863,
+      "Dictionary Attack": 0.7696078431372549,
+      "ICMP Flood": 0.44908474576271185,
+      "OS Scan": 0.051194539249146756,
+      "Ping Sweep": 0.03158344003414426,
+      "Port Scan": 0.07572165667270953,
+      "SYN Flood": 1.0,
+      "Slowloris": 0.9069020866773676,
+      "UDP Flood": 0.4,
+      "Vulnerability Scan": 0.9896661367249603
+     },
+     "mia_auc": 0.5065
+    },
+    "round_seconds": 330.3627171999542
+   },
+   {
+    "round": 5,
+    "included": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "gate_rejected": [],
+    "anomaly_flagged": [],
+    "suspended": [],
+    "client_reports": [
+     {
+      "cid": 0,
+      "malicious": false,
+      "accuracy": 0.273125,
+      "f1": 0.3146729522687095
+     },
+     {
+      "cid": 1,
+      "malicious": false,
+      "accuracy": 0.265,
+      "f1": 0.3217993079584775
+     },
+     {
+      "cid": 2,
+      "malicious": false,
+      "accuracy": 0.265,
+      "f1": 0.309048178613396
+     },
+     {
+      "cid": 3,
+      "malicious": true,
+      "accuracy": 0.74,
+      "f1": 0.8488372093023255
+     },
+     {
+      "cid": 4,
+      "malicious": false,
+      "accuracy": 0.2775,
+      "f1": 0.33333333333333337
+     },
+     {
+      "cid": 5,
+      "malicious": false,
+      "accuracy": 0.271875,
+      "f1": 0.3269786250722126
+     },
+     {
+      "cid": 6,
+      "malicious": true,
+      "accuracy": 0.33,
+      "f1": 0.3997760358342665
+     },
+     {
+      "cid": 7,
+      "malicious": false,
+      "accuracy": 0.248125,
+      "f1": 0.23326959847036333
+     },
+     {
+      "cid": 8,
+      "malicious": false,
+      "accuracy": 0.260625,
+      "f1": 0.29792284866468843
+     },
+     {
+      "cid": 9,
+      "malicious": false,
+      "accuracy": 0.2875,
+      "f1": 0.3317702227432591
+     }
+    ],
+    "aggregation": {
+     "seconds": 0.00044189998880028725
+    },
+    "test": {
+     "accuracy": 0.273025,
+     "precision": 0.5058085260865055,
+     "recall": 0.33283281575265333,
+     "f1": 0.4014819388700216,
+     "fpr": 0.8908105076189586,
+     "fnr": 0.6671671842473467,
+     "tp": 9753,
+     "tn": 1168,
+     "fp": 9529,
+     "fn": 19550,
+     "per_class_detection": {
+      "DNS Flood": 0.971542025148908,
+      "Dictionary Attack": 0.7990196078431373,
+      "ICMP Flood": 0.7030508474576271,
+      "OS Scan": 0.05460750853242321,
+      "Ping Sweep": 0.03158344003414426,
+      "Port Scan": 0.040022312090363964,
+      "SYN Flood": 0.8977777777777778,
+      "Slowloris": 0.8908507223113965,
+      "UDP Flood": 1.0,
+      "Vulnerability Scan": 0.9864864864864865
+     },
+     "mia_auc": 0.509
+    },
+    "round_seconds": 341.56311899994034
+   }
+  ],
+  "final": {
+   "accuracy": 0.273025,
+   "precision": 0.5058085260865055,
+   "recall": 0.33283281575265333,
+   "f1": 0.4014819388700216,
+   "fpr": 0.8908105076189586,
+   "fnr": 0.6671671842473467,
+   "tp": 9753,
+   "tn": 1168,
+   "fp": 9529,
+   "fn": 19550,
+   "per_class_detection": {
+    "DNS Flood": 0.971542025148908,
+    "Dictionary Attack": 0.7990196078431373,
+    "ICMP Flood": 0.7030508474576271,
+    "OS Scan": 0.05460750853242321,
+    "Ping Sweep": 0.03158344003414426,
+    "Port Scan": 0.040022312090363964,
+    "SYN Flood": 0.8977777777777778,
+    "Slowloris": 0.8908507223113965,
+    "UDP Flood": 1.0,
+    "Vulnerability Scan": 0.9864864864864865
+   },
+   "mia_auc": 0.509
+  },
+  "malicious": [
+   3,
+   6
+  ],
+  "dp_sigma": null,
+  "n_train": 159999
+ },
+ "seconds": 1656.44,
+ "finished": "2026-10-26 11:47:46"
+}
